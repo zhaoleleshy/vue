@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <!--1.选择一个-->
+    <select name="abc" v-model="flute">
+        <option value="苹果">苹果</option>
+        <option value="香蕉">香蕉</option>
+        <option value="草莓">草莓</option>
+        <option value="菠萝">菠萝</option>
+    </select>
+    <h2>您选择的水果: {{flute}}</h2>
+
+    <!--2.选择多个-->
+
+    <select name="abc" v-model="flutes" multiple>
+        <option value="苹果">苹果</option>
+        <option value="香蕉">香蕉</option>
+        <option value="草莓">草莓</option>
+        <option value="菠萝">菠萝</option>
+    </select>
+    <h2>您选择的水果: {{flutes}}</h2>
+
+</div>
+
+<script src="../js/vue.js"></script>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            flute: '',
+            flutes: []
+        }
+    })
+</script>
+
+</body>
+</html>

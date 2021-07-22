@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <cpn :number1="num1"
+         :number2="num2"
+         @num1change="num1Click"
+         @num2change="num2Click">
+    </cpn>
+</div>
+
+<template id="cpn">
+    <div>
+        <h2>props: {{pnumber1}}</h2>
+        <h2>data: {{dnumber1}}</h2>
+        <!--        <input type="text" v-model="dnumber1">-->
+        <input type="text" :value="dnumber1" @input="num1Input">  <!--v-model的本质练习-->
+        <h2>props: {{pnumber2}}</h2>
+        <h2>data: {{dnumber2}}</h2>
+        <!--        <input type="text" v-model="dnumber2">-->
+        <input type="text" :value="dnumber2" @input="num2Input">
+    </div>
+</template>
+
+<script src="../js/vue.js"></script>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            num1: 1,
+            num2: 0
+        },
+        methods: {
+            num1Click(value) {
+                this.num1 = parseFloat(value)
+            },
+            num2Click(value) {
+                this.num2 = parseFloat(value)
+            }
+        },
+        components: {
+            cpn: {
+                template: '#cpn',
+                props: {
+                    pnumber1: Number,
+                    pnumber2: Number
+                },
+                data() {
+                    return {
+                        dnumber1: this.pnumber1,
+                        dnumber2: this.pnumber2
+                    }
+                },
+                methods: {
+                    num1Input(event) {
+                        //1.将input中的value赋值到dnumber中
+                        this.dnumber1 = event.target.value
+                        //2.为了让父组件可以修改值,发出一个事件
+                        this.$emit('num1change', this.dnumber1)
+                        //3.同时修改dnumber2的2倍
+                        this.dnumber2 = this.dnumber1 * 2
+                        this.$emit('num2change', this.dnumber2)
+                    },
+                    num2Input(event) {
+                        this.dnumber2 = event.target.value
+                        this.$emit('num2change', this.dnumber2)
+                        //3.同时修改dnumber1的1/100
+                        this.dnumber1 = this.dnumber2 / 100
+                        this.$emit('num1change', this.dnumber1)
+                    }
+                }
+            }
+        },
+    })
+</script>
+
+</body>
+</html>
